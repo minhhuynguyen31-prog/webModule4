@@ -18,17 +18,12 @@ public class TimeController {
     @GetMapping("/world-clock")
 
     public String getTimeByTimezone(ModelMap model, @RequestParam(name = "city", required = false, defaultValue = "Asia/Ho_Chi_Minh") String city) {
-// Lấy ra thời gian hiện tại (thời gian của server)
+
         Date date = new Date();
-// Lấy ra time zone mặc định của server
         TimeZone localTimeZone = TimeZone.getDefault();
-// Lấy ra time zone của thành phố được chọn
         TimeZone targetTimeZone = TimeZone.getTimeZone(city);
-// Tính toán sự chênh lệch thời gian giữa múi giờ của server và múi giờ được chọn
         long timeDifference = targetTimeZone.getRawOffset() - localTimeZone.getRawOffset();
-        // Áp dụng sự chênh lệch vào thời gian hiện tại của server
         long targetTimeInMilliSeconds = date.getTime() + timeDifference;
-// Cài đặt lại thời gian cho biến date thành thời gian hiện tại của thành phố được chọn
         date.setTime(targetTimeInMilliSeconds);
 
         model.addAttribute("city", city);
